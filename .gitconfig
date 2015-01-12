@@ -1,0 +1,175 @@
+#
+#    @xtianjohns gitconfig
+#
+#    tabstop: 6 (git default)
+#    comments: #,;
+#
+
+[include]
+
+
+
+[user]
+
+      name      = xtianjohns
+      email     = christian@kiosk.tm
+
+[alias]
+
+      # these aliases can be invoked by running `git alias`
+      # commands beginning with a hashbang are executed in your shell
+
+      # list all of these
+      alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\ = \\2/' | sort
+
+      ###################################################################
+      #           common operations and convenience methods             #
+      ###################################################################
+
+      # list git project root
+      root        = rev-parse --show-toplevel
+
+      # adds all paths to the index
+      stage       = add --all
+
+      # removes a path from the index
+      unstage     = reset HEAD
+
+      # marks file for deletion in index, but leaves file in working tree
+      remove-soft = rm --cached
+
+      # silence status messages about this file, even though it is tracked
+      ignore      = update-index --assume-unchanged
+      #undo the above
+      uignore     = update-index --no-assume-unchanged
+
+      # typing is for losers
+      co          = checkout
+
+      # outputs verbose information about branch pointers
+      br          = !git branch -vv -a
+
+      # will include a diff in the template git commit
+      # NOTE: the diff will not be commented out - this is so
+      # that your syntax highlighter will catch things
+      # it will not be added to the commit message
+      dcommit     = commit -v
+
+      # status, but include untracked files (not just paths)
+      # example:
+      # $ git status
+      #
+      # Untracked files:
+      #   (use "git add <file>..." to include in what will be committed)
+      #
+      #     path/to/new/files/
+      #
+      # $ git status -u
+      #
+      # Untracked files:
+      #   (use "git add <file>..." to include in what will be committed)
+      #
+      #     path/to/new/files/one
+      #     path/to/new/files/two
+      #     path/to/new/files/three
+
+      stat        = status -u
+
+      ###################################################################
+      #                 forensics and repo exploration                  #
+      ###################################################################
+
+      # log of every HEAD update ever
+      repo-hist   = reflog --date=local --format='%C(green)%gn %C(white bold)moved to %C(magenta)%h %<|(17)%C(yellow dim)%gd %C(white)%s'
+
+      # shows all committers by commit
+      count       = !git shortlog -sn
+
+      # finds big files
+      big-files   = !git ls-tree -r -t -l --full-name HEAD | sort -rn -k 4 | less
+
+      # show all tags and possible annotations
+      tags        = tag -n1 -l
+
+      ###################################################################
+      #                          merge tools                            #
+      ###################################################################
+
+      # will list every reference that is a parent of the passed reference
+      contains    = branch -a -vv --contains
+
+      # will bail the merge if the merge isn't a fast-forward
+      # good to run initially just to make sure there won't be merge conflicts
+      merge-safe  = merge --ff
+
+      ###################################################################
+      #                       logging tools                             #
+      ###################################################################
+
+      lg-date     = log --graph --date=short
+      lgs-files   = log -m --simplify-merges --color -p --name-only
+      lg-files    = !"git lg --name-only"
+      lga         = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(bold white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+      lgb         = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+      lg          = !"git lga"
+
+[color]
+
+      diff = auto
+      status = auto
+      interactive = auto
+      ui = true
+
+[color "branch"]
+
+      current = green ul
+      local = cyan
+      remote = magenta bold
+
+[color "diff"]
+
+      meta = magenta dim
+      frag = cyan bold
+      plain = white
+      old = red bold
+      new = green bold
+      commit = yellow bold
+
+[core]
+
+      editor = vim
+
+[apply]
+
+      whitespace = nowarn
+
+[mergetool]
+
+      keepBackup = false
+
+[difftool]
+
+      prompt = false
+
+[help]
+
+      # this isn't turned on by default,
+      # but it can be terriby dangerous to leave on
+      # when true, git will try to infer your command
+      # and then execute it without confirming.
+
+      autocorrect = 0
+
+[push]
+
+      # See `git help config` (search for push.default)
+      # for more information on different options of the below setting.
+      #
+      # Setting to git 2.0 default to surpress warning message
+
+      default = simple
+
+[filter "media"]
+
+      clean = git-media-clean %f
+      smudge = git-media-smudge %f
