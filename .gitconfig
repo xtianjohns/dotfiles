@@ -22,6 +22,9 @@
       # list all of these
       alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\ = \\2/' | sort
 
+      # make git repository shared
+      shared = config core.sharedRepository group
+
       ###################################################################
       #           common operations and convenience methods             #
       ###################################################################
