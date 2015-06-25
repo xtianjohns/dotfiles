@@ -103,7 +103,7 @@
 
       # will bail the merge if the merge isn't a fast-forward
       # good to run initially just to make sure there won't be merge conflicts
-      merge-safe  = merge --ff
+      merge-safe  = merge --ff-only
 
       ###################################################################
       #                       logging tools                             #
