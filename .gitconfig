@@ -49,6 +49,11 @@
       # typing is for losers
       co          = checkout
 
+      # utilizes a message template
+      # usage:
+      #  git done foo.txt
+      done        = !git commit -evF
+
       # outputs verbose information about branch pointers
       br          = !git branch -vv -a
 
